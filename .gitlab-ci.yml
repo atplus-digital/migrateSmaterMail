@@ -1,0 +1,61 @@
+stages:
+  - Build
+  - Registry
+  - Release
+
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: always
+    - when: never
+
+image: golang:1.20
+
+"Build to Linux":
+  stage: Build
+  variables:
+    GOOS: linux
+    GOARCH: amd64
+  script:
+    - go build -o migrateSmarterMail-$GOOS
+  artifacts:
+    paths:
+      - migrateSmarterMail-$GOOS
+
+"Build to Windows":
+  stage: Build
+  variables:
+    GOOS: windows
+    GOARCH: amd64
+  script:
+    - go build -o migrateSmarterMail-$GOOS
+  artifacts:
+    paths:
+      - migrateSmarterMail-$GOOS
+
+"Build to Mac":
+  stage: Build
+  variables:
+    GOOS: darwin
+    GOARCH: amd64
+  script:
+    - go build -o migrateSmarterMail-Mac
+  artifacts:
+    paths:
+      - migrateSmarterMail-Mac
+
+"Registry Packages":
+  stage: Registry
+  image: curlimages/curl:latest
+  script:
+    - echo "Registry Package Linux"
+    - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file migrateSmarterMail-linux "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/golang/migrateSmarterMail/${CI_COMMIT_TAG}/migrateSmarterMail-linux"'
+    - echo "Registry Package Windows"
+    - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file migrateSmarterMail-windows "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/golang/migrateSmarterMail/${CI_COMMIT_TAG}/migrateSmarterMail-windows"'
+    - echo "Registry Package Mac"
+    - 'curl --fail-with-body --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file migrateSmarterMail-Mac "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/golang/migrateSmarterMail/${CI_COMMIT_TAG}/migrateSmarterMail-Mac"'
+
+
+  
+
