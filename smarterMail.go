@@ -55,7 +55,7 @@ func (c *SmarterMailClient) MigrateAccountsSmarterMail(WorkerPool int, InMailAcc
 }
 
 func (c *SmarterMailClient) CreateUserSmarterMail(u InMailAccount) error {
-	UserExist, err := c.CheckUserExist(fmt.Sprintf("%v@%v", u.Email, u.Domain))
+	UserExist, err := c.CheckUserExist(u.Email, u.Domain)
 	if err != nil {
 		return err
 	}
@@ -146,21 +146,24 @@ func (c *SmarterMailClient) MigrateMailboxSmarterMail(u InMailAccount, ServerAdd
 	return nil
 }
 
-func (c *SmarterMailClient) CheckUserExist(mailAccount string) (bool, error) {
+func (c *SmarterMailClient) CheckUserExist(mailAccount string, domain string) (bool, error) {
 	MailAccountInputDTO := struct {
 		Email string `json:"email"`
 	}{
-		Email: mailAccount,
+		Email: fmt.Sprintf("%v@%v", mailAccount, domain),
 	}
 
 	MailAccountJsonPayload, err := json.Marshal(MailAccountInputDTO)
+
 	if err != nil {
 		return false, err
 	}
 
 	MailAccountJsonPayloadBuf := bytes.NewBuffer(MailAccountJsonPayload)
 
-	resp, err := c.Post("/settings/sysadmin/user-exists", MailAccountJsonPayloadBuf, nil)
+	SmarterMailDomainHeader := map[string]string{"X-SmarterMailDomain": domain}
+
+	resp, err := c.Post("/settings/domain/get-user", MailAccountJsonPayloadBuf, SmarterMailDomainHeader)
 	if err != nil {
 		return false, err
 	}
@@ -168,6 +171,7 @@ func (c *SmarterMailClient) CheckUserExist(mailAccount string) (bool, error) {
 	defer resp.Body.Close()
 
 	ResponseBodyBytes, err := io.ReadAll(resp.Body)
+
 	if err != nil {
 		return false, err
 	}
@@ -180,7 +184,7 @@ func (c *SmarterMailClient) CheckUserExist(mailAccount string) (bool, error) {
 		return false, err
 	}
 
-	if RespMailAccountExist.Message == "ERRORS.USER_NOT_FOUND" {
+	if RespMailAccountExist.Message == "User does not exist." {
 		return false, nil
 	}
 
