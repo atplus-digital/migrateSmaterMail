@@ -1,0 +1,25 @@
+{
+  "source": {
+      "address": "mail.dominioexamplo.com.br:993",
+      "domain": "dominioexamplo.com.br"
+  },
+  "smartermail": {
+      "host": "email.platonic.cloud",
+      "username": "usuarioAdmin",
+      "password": "senhaAdmin"
+  },
+  "users": [
+    {
+      "email": "comercial",
+      "password": "senha1"
+    },
+    {
+      "email": "almoxarifado",
+      "password": "senha2"
+    },
+    {
+      "email": "teste",
+      "password": "senha3"
+    }
+  ]
+}
