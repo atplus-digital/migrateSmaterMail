@@ -34,27 +34,27 @@ func main() {
 		numWokerPool = 5
 	}
 
-	// resultsTestMail := make(chan EmailAuthResult)
-	// var numEmailAuthError int
+	resultsTestMail := make(chan EmailAuthResult)
+	var numEmailAuthError int
 
-	// color.White("Verificando autenticação das contas... \n\n")
-	// go testEmailAuthentication(setting.Users, setting.ServerAddress, resultsTestMail)
+	color.White("Verificando autenticação das contas... \n\n")
+	go testEmailAuthentication(setting.Users, setting.ServerAddress, resultsTestMail)
 
-	// for v := range resultsTestMail {
-	// 	if v.AuthError != nil {
-	// 		// fmt.Println(v.Email, "Error", v.AuthError)
-	// 		fmt.Printf("%v: %v - %v\n", color.RedString("Error"), v.Email, v.AuthError)
-	// 		numEmailAuthError++
-	// 		continue
-	// 	}
-	// 	fmt.Printf("%v: %v usuário autenticado com sucesso\n", color.GreenString("Success"), v.Email)
-	// }
+	for v := range resultsTestMail {
+		if v.AuthError != nil {
+			// fmt.Println(v.Email, "Error", v.AuthError)
+			fmt.Printf("%v: %v - %v\n", color.RedString("Error"), v.Email, v.AuthError)
+			numEmailAuthError++
+			continue
+		}
+		fmt.Printf("%v: %v usuário autenticado com sucesso\n", color.GreenString("Success"), v.Email)
+	}
 
-	// if numEmailAuthError > 0 {
-	// 	log.Fatalln(color.RedString("Número de autenticação com erro: %v", numEmailAuthError))
-	// }
-	// fmt.Println("")
-	// color.Green("Validação de autenticação - Success\n\n")
+	if numEmailAuthError > 0 {
+		log.Fatalln(color.RedString("Número de autenticação com erro: %v", numEmailAuthError))
+	}
+	fmt.Println("")
+	color.Green("Validação de autenticação - Success\n\n")
 
 	// Cria as contas no SmarterMail - WorkerPool
 
@@ -93,40 +93,40 @@ func main() {
 	color.Green("Criação de usuários - Success\n\n")
 
 	// Inicia a Migração das contas - WorkerPool
-	// color.White("Iniciando a migração das contas...\n\n")
+	color.White("Iniciando a migração das contas...\n\n")
 
-	// InMigrateMailboxChannel := make(chan InMailAccount)
-	// resultMigrateMailboxChannel := make(chan EmailMigrateResult)
-	// var numMigrateError int
+	InMigrateMailboxChannel := make(chan InMailAccount)
+	resultMigrateMailboxChannel := make(chan EmailMigrateResult)
+	var numMigrateError int
 
-	// go func(InMigrateMailboxChannel chan InMailAccount) {
-	// 	for _, v := range setting.Users {
-	// 		InMigrateMailboxChannel <- InMailAccount{
-	// 			Email:    v.Username,
-	// 			Password: v.Password,
-	// 			Domain:   setting.ServerAddress.Domain}
-	// 	}
-	// 	close(InMigrateMailboxChannel)
+	go func(InMigrateMailboxChannel chan InMailAccount) {
+		for _, v := range setting.Users {
+			InMigrateMailboxChannel <- InMailAccount{
+				Email:    v.Username,
+				Password: v.Password,
+				Domain:   setting.ServerAddress.Domain}
+		}
+		close(InMigrateMailboxChannel)
 
-	// }(InMigrateMailboxChannel)
+	}(InMigrateMailboxChannel)
 
-	// go sm.MigrateAccountsSmarterMail(numWokerPool, InMigrateMailboxChannel, resultMigrateMailboxChannel, setting.ServerAddress.Address)
+	go sm.MigrateAccountsSmarterMail(numWokerPool, InMigrateMailboxChannel, resultMigrateMailboxChannel, setting.ServerAddress.Address)
 
-	// for v := range resultMigrateMailboxChannel {
-	// 	if v.Error != nil {
-	// 		fmt.Printf("%v: %v - %v\n", color.RedString("Error"), v.Email, v.Error)
-	// 		numMigrateError++
-	// 		continue
-	// 	}
-	// 	fmt.Printf("%v: %v usuário migrado com sucesso\n", color.GreenString("Success"), v.Email)
+	for v := range resultMigrateMailboxChannel {
+		if v.Error != nil {
+			fmt.Printf("%v: %v - %v\n", color.RedString("Error"), v.Email, v.Error)
+			numMigrateError++
+			continue
+		}
+		fmt.Printf("%v: %v usuário migrado com sucesso\n", color.GreenString("Success"), v.Email)
 
-	// }
+	}
 
-	// if numMigrateError > 0 {
-	// 	log.Fatalln(color.RedString("Número de contas que deram erro ao serem migradas: %v", numMigrateError))
-	// }
-	// fmt.Println("")
-	// color.Green("Migração das contas - Success\n\n")
+	if numMigrateError > 0 {
+		log.Fatalln(color.RedString("Número de contas que deram erro ao serem migradas: %v", numMigrateError))
+	}
+	fmt.Println("")
+	color.Green("Migração das contas - Success\n\n")
 
 }
 
