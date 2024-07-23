@@ -18,8 +18,9 @@ type SourceAddressDTO struct {
 }
 
 type UsersSctruct struct {
-	Username string `json:"email"`
-	Password string `json:"password"`
+	Username      string `json:"email"`
+	TargetAccount string `json:"tagetAccount"`
+	Password      string `json:"password"`
 }
 
 type EmailAuthResult struct {
@@ -38,9 +39,10 @@ type EmailMigrateResult struct {
 }
 
 type InMailAccount struct {
-	Email    string
-	Password string
-	Domain   string
+	Email         string
+	TargetAccount string
+	Password      string
+	Domain        string
 }
 
 type CreateUserInputDTO struct {

@@ -18,6 +18,9 @@ func (c *SmarterMailClient) CreateAccountsSmarterMail(WorkerPool int, InMailAcco
 		go func(x int) {
 			defer wg.Done()
 			for v := range InMailAccountChannel {
+				if v.TargetAccount != "" {
+					v.Email = v.TargetAccount
+				}
 				err := c.CreateUserSmarterMail(v)
 				if err != nil {
 					// fmt.Printf("O Worker %v esta trabalhando com a conta %v\n", x, v.Email )
@@ -40,7 +43,13 @@ func (c *SmarterMailClient) MigrateAccountsSmarterMail(WorkerPool int, InMailAcc
 		go func(x int) {
 			defer wg.Done()
 			for v := range InMailAccountChannel {
-				fmt.Println("Migrando a conta", v.Email)
+
+				if v.TargetAccount != "" {
+					fmt.Printf("Migrando a conta %v -> %v\n", v.Email, v.TargetAccount)
+				} else {
+					fmt.Println("Migrando a conta", v.Email)
+				}
+
 				err := c.MigrateMailboxSmarterMail(v, ServerAddress)
 				if err != nil {
 					resultChannel <- EmailMigrateResult{Email: v.Email, Error: err}
@@ -55,6 +64,7 @@ func (c *SmarterMailClient) MigrateAccountsSmarterMail(WorkerPool int, InMailAcc
 }
 
 func (c *SmarterMailClient) CreateUserSmarterMail(u InMailAccount) error {
+
 	UserExist, err := c.CheckUserExist(u.Email, u.Domain)
 	if err != nil {
 		return err
@@ -73,6 +83,10 @@ func (c *SmarterMailClient) CreateUserSmarterMail(u InMailAccount) error {
 func (c *SmarterMailClient) MigrateMailboxSmarterMail(u InMailAccount, ServerAddress string) error {
 
 	username := fmt.Sprintf("%v@%v", u.Email, u.Domain)
+	targetAccount := username
+	if u.TargetAccount != "" {
+		targetAccount = fmt.Sprintf("%v@%v", u.TargetAccount, u.Domain)
+	}
 
 	ServerAddressSplit := strings.Split(ServerAddress, ":")
 	ServerAddressName := ServerAddressSplit[0]
@@ -83,7 +97,7 @@ func (c *SmarterMailClient) MigrateMailboxSmarterMail(u InMailAccount, ServerAdd
 
 	UserSmarterMailConfig := SmarterMailConfigDTO{
 		Host:     c.SmarterMailConfig.Host,
-		Username: username,
+		Username: targetAccount,
 		Password: u.Password,
 	}
 

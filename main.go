@@ -67,9 +67,10 @@ func main() {
 	go func(InMailAccountChannel chan InMailAccount) {
 		for _, v := range setting.Users {
 			InMailAccountChannel <- InMailAccount{
-				Email:    v.Username,
-				Password: v.Password,
-				Domain:   setting.ServerAddress.Domain}
+				Email:         v.Username,
+				TargetAccount: v.TargetAccount,
+				Password:      v.Password,
+				Domain:        setting.ServerAddress.Domain}
 		}
 		close(InMailAccountChannel)
 
@@ -102,9 +103,10 @@ func main() {
 	go func(InMigrateMailboxChannel chan InMailAccount) {
 		for _, v := range setting.Users {
 			InMigrateMailboxChannel <- InMailAccount{
-				Email:    v.Username,
-				Password: v.Password,
-				Domain:   setting.ServerAddress.Domain}
+				Email:         v.Username,
+				TargetAccount: v.TargetAccount,
+				Password:      v.Password,
+				Domain:        setting.ServerAddress.Domain}
 		}
 		close(InMigrateMailboxChannel)
 
@@ -118,7 +120,7 @@ func main() {
 			numMigrateError++
 			continue
 		}
-		fmt.Printf("%v: %v usuário migrado com sucesso\n", color.GreenString("Success"), v.Email)
+		fmt.Printf("%v: %v Tarefa de migração criada com sucesso\n", color.GreenString("Success"), v.Email)
 
 	}
 
