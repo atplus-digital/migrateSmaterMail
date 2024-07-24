@@ -7,7 +7,7 @@
       "host": "email.platonic.cloud",
       "username": "usuarioAdmin",
       "password": "senhaAdmin",
-      "domain: "outrodominioexamplo.com"
+      "domain": "outrodominioexamplo.com"
   },
   "users": [
     {
