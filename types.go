@@ -20,7 +20,7 @@ type SourceAddressDTO struct {
 
 type UsersSctruct struct {
 	Username      string `json:"email"`
-	TargetAccount string `json:"tagetAccount"`
+	TargetAccount string `json:"targetAccount"`
 	Password      string `json:"password"`
 }
 
