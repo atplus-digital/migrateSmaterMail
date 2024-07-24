@@ -10,20 +10,24 @@ Configure o arquivo settings.json de acordo com sua necessidade
 
 ### Objeto `source`:  Dados do servidores de email de origem. 
 
- - O campo `host` deve ser preenchido com o endereço do servidor de email (Dominio ou IP).
+ - O campo `host` deve ser preenchido com o endereço do servidor de email (Dominio ou IP). *
 
- - O campo `domain` é o dominio que esta sendo migrado. 
+ - O campo `domain` é o dominio que esta sendo migrado.  *
 
 ### Objeto `smartermail`: Dados para a conexão com o SmarterMail.
- - O campo `host` deve ser preenchido com o endereço do servidor SmarterMail.
- - O campo `username` deve ser preenchido com o usuário admin do SmarterMail.
- - O campo `password` deve ser preenchido com a senha do usuário admin do  SmarterMail.
+ - O campo `host` deve ser preenchido com o endereço do servidor SmarterMail. *
+ - O campo `username` deve ser preenchido com o usuário admin do SmarterMail. *
+ - O campo `password` deve ser preenchido com a senha do usuário admin do  SmarterMail. *
+ - O campo `domain` deve ser preenchido com o dominio de destino. *
+
 
 ### Array `users`: Dados das contas para serem migradas
- - O campo `email` deve ser preenchido com a conta de email (Apenas a conta e não o dominio junto).
- - O campo `password` deve ser preenchido com a senha da conta de email
+ - O campo `email` deve ser preenchido com a conta de email (Apenas a conta e não o dominio junto) *
+ - O campo `password` deve ser preenchido com a senha da conta de email *
+ - O campo `tagetAccount` pode ser preenchido com a conta de destino (Opcional)
+    - Default: Valor do campo email
 
-## PS: A senha deve ser a mesma que a senha do conta de email na origem, a mesma senha também sera utilizada na conta no SmarterMail
+#### A senha deve ser a mesma que a senha do conta de email na origem, a mesma senha também sera utilizada na conta no SmarterMail
 
 
 

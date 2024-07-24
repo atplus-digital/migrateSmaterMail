@@ -6,15 +6,18 @@
   "smartermail": {
       "host": "email.platonic.cloud",
       "username": "usuarioAdmin",
-      "password": "senhaAdmin"
+      "password": "senhaAdmin",
+      "domain: "outrodominioexamplo.com"
   },
   "users": [
     {
       "email": "comercial",
+      "tagetAccount": "vendas",
       "password": "senha1"
     },
     {
       "email": "almoxarifado",
+      "tagetAccount": "almox",
       "password": "senha2"
     },
     {
