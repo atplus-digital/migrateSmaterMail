@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 func (c *SmarterMailClient) CreateAccountsSmarterMail(WorkerPool int, InMailAccountChannel chan InMailAccount, resultChannel chan EmailCreateResult) {
@@ -29,13 +30,15 @@ func (c *SmarterMailClient) CreateAccountsSmarterMail(WorkerPool int, InMailAcco
 					return
 				}
 				resultChannel <- EmailCreateResult{Email: v.Email, CreateError: nil}
+				// Sleep for 1 second
+				time.Sleep(1 * time.Second)
 			}
 		}(i)
 	}
 	wg.Wait()
 	close(resultChannel)
 }
-func (c *SmarterMailClient) MigrateAccountsSmarterMail(WorkerPool int, InMailAccountChannel chan InMailAccount, resultChannel chan EmailMigrateResult, ServerAddress string) {
+func (c *SmarterMailClient) MigrateAccountsSmarterMail(WorkerPool int, InMailAccountChannel chan InMailAccount, resultChannel chan EmailMigrateResult, SourceAddress SourceAddressDTO) {
 	var wg sync.WaitGroup
 
 	for i := 1; i <= WorkerPool; i++ {
@@ -50,12 +53,14 @@ func (c *SmarterMailClient) MigrateAccountsSmarterMail(WorkerPool int, InMailAcc
 					fmt.Println("Migrando a conta", v.Email)
 				}
 
-				err := c.MigrateMailboxSmarterMail(v, ServerAddress)
+				err := c.MigrateMailboxSmarterMail(v, SourceAddress)
 				if err != nil {
 					resultChannel <- EmailMigrateResult{Email: v.Email, Error: err}
 					return
 				}
 				resultChannel <- EmailMigrateResult{Email: v.Email, Error: nil}
+				// Sleep for 1 second
+				time.Sleep(1 * time.Second)
 			}
 		}(i)
 	}
@@ -80,15 +85,16 @@ func (c *SmarterMailClient) CreateUserSmarterMail(u InMailAccount) error {
 	}
 	return nil
 }
-func (c *SmarterMailClient) MigrateMailboxSmarterMail(u InMailAccount, ServerAddress string) error {
+func (c *SmarterMailClient) MigrateMailboxSmarterMail(u InMailAccount, s SourceAddressDTO) error {
 
-	username := fmt.Sprintf("%v@%v", u.Email, u.Domain)
-	targetAccount := username
+	targetAccount := fmt.Sprintf("%v@%v", u.Email, u.Domain)
+	username := fmt.Sprintf("%v@%v", u.Email, s.Domain)
+
 	if u.TargetAccount != "" {
 		targetAccount = fmt.Sprintf("%v@%v", u.TargetAccount, u.Domain)
 	}
 
-	ServerAddressSplit := strings.Split(ServerAddress, ":")
+	ServerAddressSplit := strings.Split(s.Address, ":")
 	ServerAddressName := ServerAddressSplit[0]
 	ServerAddressPort, err := strconv.Atoi(ServerAddressSplit[1])
 	if err != nil {

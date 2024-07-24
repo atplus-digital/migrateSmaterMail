@@ -70,7 +70,7 @@ func main() {
 				Email:         v.Username,
 				TargetAccount: v.TargetAccount,
 				Password:      v.Password,
-				Domain:        setting.ServerAddress.Domain}
+				Domain:        setting.SmarterMailConfig.Domain}
 		}
 		close(InMailAccountChannel)
 
@@ -84,7 +84,7 @@ func main() {
 			numCreateMailError++
 			continue
 		}
-		fmt.Printf("%v: %v@%v usuário criado com sucesso\n", color.GreenString("Success"), v.Email, setting.ServerAddress.Domain)
+		fmt.Printf("%v: %v@%v usuário criado com sucesso\n", color.GreenString("Success"), v.Email, setting.SmarterMailConfig.Domain)
 	}
 
 	if numCreateMailError > 0 {
@@ -106,13 +106,13 @@ func main() {
 				Email:         v.Username,
 				TargetAccount: v.TargetAccount,
 				Password:      v.Password,
-				Domain:        setting.ServerAddress.Domain}
+				Domain:        setting.SmarterMailConfig.Domain}
 		}
 		close(InMigrateMailboxChannel)
 
 	}(InMigrateMailboxChannel)
 
-	go sm.MigrateAccountsSmarterMail(numWokerPool, InMigrateMailboxChannel, resultMigrateMailboxChannel, setting.ServerAddress.Address)
+	go sm.MigrateAccountsSmarterMail(numWokerPool, InMigrateMailboxChannel, resultMigrateMailboxChannel, setting.ServerAddress)
 
 	for v := range resultMigrateMailboxChannel {
 		if v.Error != nil {

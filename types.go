@@ -10,6 +10,7 @@ type SmarterMailConfigDTO struct {
 	Host     string `json:"host"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Domain   string `json:"domain"`
 }
 
 type SourceAddressDTO struct {
