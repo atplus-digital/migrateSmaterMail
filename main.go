@@ -134,7 +134,9 @@ func main() {
 
 func initConfig(pathJsonfile string) InputCredencialsFileDTO {
 	readFile, err := os.ReadFile(pathJsonfile)
-	check(err)
+	if err != nil {
+		log.Fatalf("Não foi possivel ler o arquivo: %v", pathJsonfile)
+	}
 
 	var InputCredencials InputCredencialsFileDTO
 
