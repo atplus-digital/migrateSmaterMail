@@ -36,6 +36,8 @@ Com o arquivo settings.json configurado, baixe o script no mesmo caminho/pasta q
 Execute o script em seu terminal:
 
 ### Bash:
+`chmod +x ./migrateSmarterMail`
+
 `./migrateSmarterMail` 
 
 ### Powershell/CMD:
