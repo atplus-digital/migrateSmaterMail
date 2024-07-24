@@ -12,12 +12,12 @@
   "users": [
     {
       "email": "comercial",
-      "tagetAccount": "vendas",
+      "targetAccount": "vendas",
       "password": "senha1"
     },
     {
       "email": "almoxarifado",
-      "tagetAccount": "almox",
+      "targetAccount": "almox",
       "password": "senha2"
     },
     {
