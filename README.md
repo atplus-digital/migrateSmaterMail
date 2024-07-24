@@ -24,7 +24,7 @@ Configure o arquivo settings.json de acordo com sua necessidade
 ### Array `users`: Dados das contas para serem migradas
  - O campo `email` deve ser preenchido com a conta de email (Apenas a conta e não o dominio junto) *
  - O campo `password` deve ser preenchido com a senha da conta de email *
- - O campo `tagetAccount` pode ser preenchido com a conta de destino (Opcional)
+ - O campo `targetAccount` pode ser preenchido com a conta de destino (Opcional)
     - Default: Valor do campo email
 
 PS: A senha deve ser a mesma que a senha do conta de email na origem, a mesma senha também sera utilizada na conta no SmarterMail
