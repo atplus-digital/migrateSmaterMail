@@ -27,7 +27,22 @@ Configure o arquivo settings.json de acordo com sua necessidade
  - O campo `tagetAccount` pode ser preenchido com a conta de destino (Opcional)
     - Default: Valor do campo email
 
-#### A senha deve ser a mesma que a senha do conta de email na origem, a mesma senha também sera utilizada na conta no SmarterMail
+PS: A senha deve ser a mesma que a senha do conta de email na origem, a mesma senha também sera utilizada na conta no SmarterMail
+
+## Executando o script:
+
+Com o arquivo settings.json configurado, baixe o script no mesmo caminho/pasta que o arquivo settings.json
+
+Execute o script em seu terminal:
+
+### Bash:
+`./migrateSmarterMail` 
+
+### Powershell/CMD:
+`.\migrateSmarterMail-windows.exe`
+
+
+
 
 
 
