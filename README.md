@@ -11,15 +11,15 @@ Configure o arquivo settings.json de acordo com sua necessidade
 ```json
 {
   "source": {
-      "address": "mail.dominioexamplo.com.br:993",
-      "domain": "dominioexamplo.com.br",
+      "address": "mail.sourcedomain.com.br:993",
+      "domain": "sourcedomain.com.br",
       "tls/ssl": true
   },
   "smartermail": {
-      "host": "email.platonic.cloud",
-      "username": "usuarioAdmin",
-      "password": "senhaAdmin",
-      "domain": "outrodominioexamplo.com"
+      "host": "yoursmartermail.com",
+      "username": "userDomainAdmin",
+      "password": "passwordAdmin",
+      "domain": "targetdomain.com"
   },
   "users": [
     {
