@@ -263,3 +263,69 @@ func (c *SmarterMailClient) CreateUser(mailAccount string, password string, doma
 
 	return nil
 }
+func (c *SmarterMailClient) ExpireUsersPassword(users []UsersSctruct) error {
+
+	emailAddresses := []string{}
+	Domain := c.SmarterMailConfig.Domain
+
+	for _, v := range users {
+		if v.TargetAccount != "" {
+			v.Username = v.TargetAccount
+		}
+		emailAddresses = append(emailAddresses, getfullEmail(v.Username, Domain))
+	}
+
+	ExpireUsersPasswordsPayload := ExpireUsersPasswordDTO{
+		EmailAddresses: emailAddresses,
+	}
+
+	err := c.ExpireUsersPasswordService(ExpireUsersPasswordsPayload)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *SmarterMailClient) ExpireUsersPasswordService(RequestDTO ExpireUsersPasswordDTO) error {
+	emailAddressesJsonBytes, err := json.Marshal(RequestDTO)
+	if err != nil {
+		return err
+	}
+
+	emailAddressBuffer := bytes.NewBuffer(emailAddressesJsonBytes)
+
+	fmt.Println(string(emailAddressesJsonBytes))
+
+	ResponseExpiredPasswords, err := c.Post("/settings/domain/expire-users-passwords", emailAddressBuffer, nil)
+	if err != nil {
+		return err
+	}
+
+	defer ResponseExpiredPasswords.Body.Close()
+
+	var ResponseBodyDTO struct {
+		Success bool   `json:"success"`
+		Message string `json:"message"`
+	}
+
+	ResponseBodyBuf, err := io.ReadAll(ResponseExpiredPasswords.Body)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(ResponseBodyBuf, &ResponseBodyDTO)
+	if err != nil {
+		return err
+	}
+
+	if !ResponseBodyDTO.Success {
+		fmt.Println("Status: ", ResponseExpiredPasswords.Status)
+		fmt.Println("URL: ", ResponseExpiredPasswords.Request.URL)
+		return fmt.Errorf(ResponseBodyDTO.Message)
+	}
+
+	fmt.Println("Status: ", ResponseExpiredPasswords.Status)
+
+	return nil
+}

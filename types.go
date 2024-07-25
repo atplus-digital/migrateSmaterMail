@@ -7,10 +7,11 @@ type InputCredencialsFileDTO struct {
 }
 
 type SmarterMailConfigDTO struct {
-	Host     string `json:"host"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Domain   string `json:"domain"`
+	Host              string `json:"host"`
+	Username          string `json:"username"`
+	Password          string `json:"password"`
+	Domain            string `json:"domain"`
+	IsPasswordExpired bool   `json:"passwordExpired"`
 }
 
 type SourceAddressDTO struct {
@@ -84,4 +85,8 @@ type ImapAccount struct {
 	ItemsToImport                int    `json:"itemsToImport"`
 	IsMailboxMigration           bool   `json:"isMailboxMigration"`
 	DeleteEverythingBeforeImport bool   `json:"deleteEverythingBeforeImport"`
+}
+
+type ExpireUsersPasswordDTO struct {
+	EmailAddresses []string `json:"input"`
 }

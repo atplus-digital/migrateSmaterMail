@@ -130,6 +130,15 @@ func main() {
 	fmt.Println("")
 	color.Green("Migração das contas - Success\n\n")
 
+	// Expire as senhas das contas caso o campo IsPasswordExpired seja true
+	if sm.SmarterMailConfig.IsPasswordExpired {
+		err := sm.ExpireUsersPassword(setting.Users)
+		check(err)
+
+		fmt.Printf("%v: Senhas expiradas com sucesso\n\n", color.GreenString("Success"))
+
+	}
+
 }
 
 func initConfig(pathJsonfile string) InputCredencialsFileDTO {
@@ -151,4 +160,8 @@ func check(e error) {
 		ErrorTxt := fmt.Sprintf("%v: %v", color.RedString("Error:"), e)
 		log.Fatal(ErrorTxt)
 	}
+}
+
+func getfullEmail(email string, domain string) string {
+	return fmt.Sprintf("%v@%v", email, domain)
 }
