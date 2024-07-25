@@ -118,7 +118,7 @@ func (c *SmarterMailClient) MigrateMailboxSmarterMail(u InMailAccount, s SourceA
 			Username:                     username,
 			Password:                     u.Password,
 			ServerPort:                   ServerAddressPort,
-			UseSsl:                       true,
+			UseSsl:                       s.TLS,
 			EnableSpamFilter:             false,
 			IsManualRetrieval:            true,
 			AccountType:                  "IMAP",
