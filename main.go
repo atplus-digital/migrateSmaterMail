@@ -132,6 +132,7 @@ func main() {
 
 	// Expire as senhas das contas caso o campo IsPasswordExpired seja true
 	if sm.SmarterMailConfig.IsPasswordExpired {
+		color.White("Expirando as senhas...\n\n")
 		err := sm.ExpireUsersPassword(setting.Users)
 		check(err)
 

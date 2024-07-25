@@ -295,8 +295,6 @@ func (c *SmarterMailClient) ExpireUsersPasswordService(RequestDTO ExpireUsersPas
 
 	emailAddressBuffer := bytes.NewBuffer(emailAddressesJsonBytes)
 
-	fmt.Println(string(emailAddressesJsonBytes))
-
 	ResponseExpiredPasswords, err := c.Post("/settings/domain/expire-users-passwords", emailAddressBuffer, nil)
 	if err != nil {
 		return err
@@ -320,12 +318,10 @@ func (c *SmarterMailClient) ExpireUsersPasswordService(RequestDTO ExpireUsersPas
 	}
 
 	if !ResponseBodyDTO.Success {
-		fmt.Println("Status: ", ResponseExpiredPasswords.Status)
-		fmt.Println("URL: ", ResponseExpiredPasswords.Request.URL)
+		// fmt.Println("Status: ", ResponseExpiredPasswords.Status)
+		// fmt.Println("URL: ", ResponseExpiredPasswords.Request.URL)
 		return fmt.Errorf(ResponseBodyDTO.Message)
 	}
-
-	fmt.Println("Status: ", ResponseExpiredPasswords.Status)
 
 	return nil
 }
