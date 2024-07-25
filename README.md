@@ -8,6 +8,38 @@ Mova o arquivo settings-example.json para settings.json com o seguinte comando:
 
 Configure o arquivo settings.json de acordo com sua necessidade
 
+```json
+{
+  "source": {
+      "address": "mail.dominioexamplo.com.br:993",
+      "domain": "dominioexamplo.com.br",
+      "tls/ssl": true
+  },
+  "smartermail": {
+      "host": "email.platonic.cloud",
+      "username": "usuarioAdmin",
+      "password": "senhaAdmin",
+      "domain": "outrodominioexamplo.com"
+  },
+  "users": [
+    {
+      "email": "comercial",
+      "targetAccount": "vendas",
+      "password": "senha1"
+    },
+    {
+      "email": "almoxarifado",
+      "targetAccount": "almox",
+      "password": "senha2"
+    },
+    {
+      "email": "teste",
+      "password": "senha3"
+    }
+  ]
+}
+```
+
 ### Objeto `source`:  Dados do servidores de email de origem. 
 
  - O campo `host` deve ser preenchido com o endereço do servidor de email (Dominio ou IP). *
