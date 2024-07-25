@@ -19,7 +19,8 @@ Configure o arquivo settings.json de acordo com sua necessidade
       "host": "yoursmartermail.com",
       "username": "userDomainAdmin",
       "password": "passwordAdmin",
-      "domain": "targetdomain.com"
+      "domain": "targetdomain.com",
+      "passwordExpired": false
   },
   "users": [
     {
@@ -53,6 +54,7 @@ Configure o arquivo settings.json de acordo com sua necessidade
  - O campo `username` deve ser preenchido com o usuário admin do SmarterMail. *
  - O campo `password` deve ser preenchido com a senha do usuário admin do  SmarterMail. *
  - O campo `domain` deve ser preenchido com o dominio de destino. *
+ - O campo `passwordExpired` marque como `true` ou `false` caso queira que o usuário redefina a senha no primeiro acesso.. *
 
 
 ### Array `users`: Dados das contas para serem migradas

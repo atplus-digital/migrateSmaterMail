@@ -8,7 +8,8 @@
       "host": "yoursmartermail.com",
       "username": "userDomainAdmin",
       "password": "passwordAdmin",
-      "domain": "targetdomain.com"
+      "domain": "targetdomain.com",
+      "passwordExpired": false
   },
   "users": [
     {
