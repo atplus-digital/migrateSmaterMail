@@ -1,7 +1,8 @@
 {
   "source": {
       "address": "mail.dominioexamplo.com.br:993",
-      "domain": "dominioexamplo.com.br"
+      "domain": "dominioexamplo.com.br",
+      "tls/ssl": true
   },
   "smartermail": {
       "host": "email.platonic.cloud",

@@ -14,6 +14,8 @@ Configure o arquivo settings.json de acordo com sua necessidade
 
  - O campo `domain` é o dominio que esta sendo migrado.  *
 
+ - O campo `tls/ssl` marque como `true` ou `false` se a conexão é criptografada ou não.  *
+
 ### Objeto `smartermail`: Dados para a conexão com o SmarterMail.
  - O campo `host` deve ser preenchido com o endereço do servidor SmarterMail. *
  - O campo `username` deve ser preenchido com o usuário admin do SmarterMail. *
