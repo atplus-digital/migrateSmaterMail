@@ -13,15 +13,28 @@ func testEmailAuthentication(emails []UsersSctruct, Source SourceAddressDTO, res
 		wg.Add(1)
 		go func(e UsersSctruct) {
 			defer wg.Done()
-			c, err := client.DialTLS(Source.Address, nil)
-			if err != nil {
-				results <- EmailAuthResult{Email: e.Username + "@" + Source.Domain, AuthError: err}
-				return
+
+			c := &client.Client{}
+
+			if Source.TLS {
+				clientTLS, err := client.DialTLS(Source.Address, nil)
+				if err != nil {
+					results <- EmailAuthResult{Email: e.Username + "@" + Source.Domain, AuthError: err}
+					return
+				}
+				c = clientTLS
+			} else {
+				clientNoTLS, err := client.Dial(Source.Address)
+				if err != nil {
+					results <- EmailAuthResult{Email: e.Username + "@" + Source.Domain, AuthError: err}
+					return
+				}
+				c = clientNoTLS
 			}
 
 			defer c.Logout()
 
-			err = c.Login(e.Username+"@"+Source.Domain, e.Password)
+			err := c.Login(e.Username+"@"+Source.Domain, e.Password)
 			if err != nil {
 				results <- EmailAuthResult{Email: e.Username + "@" + Source.Domain, AuthError: err}
 				return

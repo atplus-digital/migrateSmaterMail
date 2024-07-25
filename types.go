@@ -16,6 +16,7 @@ type SmarterMailConfigDTO struct {
 type SourceAddressDTO struct {
 	Address string `json:"address"`
 	Domain  string `json:"domain"`
+	TLS     bool   `json:"tls/ssl"`
 }
 
 type UsersSctruct struct {
