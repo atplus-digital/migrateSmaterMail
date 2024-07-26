@@ -23,6 +23,8 @@ type SourceAddressDTO struct {
 type UsersSctruct struct {
 	Username      string `json:"email"`
 	TargetAccount string `json:"targetAccount"`
+	FullName      string `json:"fullName"`
+	JobTitle      string `json:"jobTitle"`
 	Password      string `json:"password"`
 }
 
@@ -44,12 +46,15 @@ type EmailMigrateResult struct {
 type InMailAccount struct {
 	Email         string
 	TargetAccount string
+	FullName      string
+	JobTitle      string
 	Password      string
 	Domain        string
 }
 
 type CreateUserInputDTO struct {
-	UserData `json:"userData"`
+	UserData         `json:"userData"`
+	UserMailSettings `json:"userMailSettings"`
 }
 
 type UserData struct {
@@ -64,6 +69,14 @@ type SecurityFlags struct {
 	AuthType                    int  `json:"authType"`
 	AuthenticatingWindowsDomain any  `json:"authenticatingWindowsDomain"`
 	IsDomainAdmin               bool `json:"isDomainAdmin"`
+}
+
+type UserMailSettings struct {
+	UserContactInfo `json:"userContactInfo"`
+}
+
+type UserContactInfo struct {
+	JobTitle string `json:"jobTitle"`
 }
 
 type MigrateMailboxStruct struct {

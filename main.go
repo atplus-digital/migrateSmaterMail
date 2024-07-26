@@ -70,6 +70,8 @@ func main() {
 				Email:         v.Username,
 				TargetAccount: v.TargetAccount,
 				Password:      v.Password,
+				FullName:      v.FullName,
+				JobTitle:      v.JobTitle,
 				Domain:        setting.SmarterMailConfig.Domain}
 		}
 		close(InMailAccountChannel)

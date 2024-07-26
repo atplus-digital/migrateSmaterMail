@@ -79,7 +79,7 @@ func (c *SmarterMailClient) CreateUserSmarterMail(u InMailAccount) error {
 		return nil
 	}
 
-	err = c.CreateUser(u.Email, u.Password, u.Domain)
+	err = c.CreateUser(u)
 	if err != nil {
 		return err
 	}
@@ -210,18 +210,23 @@ func (c *SmarterMailClient) CheckUserExist(mailAccount string, domain string) (b
 
 	return true, nil
 }
-func (c *SmarterMailClient) CreateUser(mailAccount string, password string, domain string) error {
+func (c *SmarterMailClient) CreateUser(u InMailAccount) error {
 
 	CreateUserInputDTO := CreateUserInputDTO{
 		UserData{
-			UserName:          mailAccount,
-			FullName:          mailAccount,
-			Password:          password,
+			UserName:          u.Email,
+			FullName:          u.FullName,
+			Password:          u.Password,
 			IsPasswordExpired: false,
 			SecurityFlags: SecurityFlags{
 				AuthType:                    0,
 				AuthenticatingWindowsDomain: nil,
 				IsDomainAdmin:               false,
+			},
+		},
+		UserMailSettings{
+			UserContactInfo{
+				JobTitle: u.JobTitle,
 			},
 		},
 	}
@@ -233,7 +238,7 @@ func (c *SmarterMailClient) CreateUser(mailAccount string, password string, doma
 
 	CreateUserInputBuf := bytes.NewBuffer(CreateUserInputJson)
 
-	SmarterMailDomainHeader := map[string]string{"X-SmarterMailDomain": domain}
+	SmarterMailDomainHeader := map[string]string{"X-SmarterMailDomain": u.Domain}
 
 	ResponseCreateUser, err := c.Post("/settings/domain/user-put", CreateUserInputBuf, SmarterMailDomainHeader)
 	if err != nil {
