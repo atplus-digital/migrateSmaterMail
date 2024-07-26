@@ -24,21 +24,25 @@ Configure o arquivo settings.json de acordo com sua necessidade
   },
   "users": [
     {
-      "email": "comercial",
-      "targetAccount": "vendas",
+      "email": "sourceaccount",
+      "targetAccount": "johndoe",
+      "fullName": "John Doe",
+      "jobtitle": "System Analyst",
       "password": "senha1"
     },
     {
-      "email": "almoxarifado",
-      "targetAccount": "almox",
+      "email": "sales",
+      "fullName": "Sales",
+      "jobtitle": "Commercial",
       "password": "senha2"
     },
     {
-      "email": "teste",
+      "email": "otheraccount",
       "password": "senha3"
     }
   ]
 }
+
 ```
 
 ### Objeto `source`:  Dados do servidores de email de origem. 
@@ -60,6 +64,8 @@ Configure o arquivo settings.json de acordo com sua necessidade
 ### Array `users`: Dados das contas para serem migradas
  - O campo `email` deve ser preenchido com a conta de email (Apenas a conta e não o dominio junto) *
  - O campo `password` deve ser preenchido com a senha da conta de email *
+ - O campo `fullName` pode ser preenchido com o nome completo do usuário (Opcional)
+ - O campo `jobtitle` pode ser preenchido com a função do usuário na empresa (Opcional)
  - O campo `targetAccount` pode ser preenchido com a conta de destino (Opcional)
     - Default: Valor do campo email
 

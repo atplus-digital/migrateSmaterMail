@@ -13,17 +13,20 @@
   },
   "users": [
     {
-      "email": "comercial",
-      "targetAccount": "vendas",
+      "email": "sourceaccount",
+      "targetAccount": "johndoe",
+      "fullName": "John Doe",
+      "jobtitle": "System Analyst",
       "password": "senha1"
     },
     {
-      "email": "almoxarifado",
-      "targetAccount": "almox",
+      "email": "sales",
+      "fullName": "Sales",
+      "jobtitle": "Commercial",
       "password": "senha2"
     },
     {
-      "email": "teste",
+      "email": "otheraccount",
       "password": "senha3"
     }
   ]
